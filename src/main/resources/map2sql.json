@@ -1,0 +1,15 @@
+{
+  "version": "1.0",
+  "defaultSchema": "database",
+  "schemas": [
+    {
+      "type": "custom",
+      "name": "database",
+      "factory": "com.young.scala.sqlparser.map2sql.Map2SqlSchemaFactory",
+      "operand": {
+        "param1": "hello",
+        "param2": "world"
+      }
+    }
+  ]
+}
