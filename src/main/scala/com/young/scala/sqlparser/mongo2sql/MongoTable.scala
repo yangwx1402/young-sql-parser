@@ -1,19 +1,32 @@
 package com.young.scala.sqlparser.mongo2sql
 
-import org.apache.calcite.linq4j.{QueryProvider, Queryable}
-import org.apache.calcite.plan.RelOptTable
-import org.apache.calcite.plan.RelOptTable.ToRelContext
-import org.apache.calcite.rel.RelNode
-import org.apache.calcite.rel.`type`.{RelDataType, RelDataTypeFactory}
+import com.mongodb.client.MongoCollection
+import com.young.java.sqlparser.mongo2sql.MongoFieldType
+import org.apache.calcite.rel.`type`.{RelDataType, RelDataTypeFactory, RelProtoDataType}
 import org.apache.calcite.schema.impl.AbstractTable
-import org.apache.calcite.schema.{SchemaPlus, TranslatableTable}
+import org.bson.Document
+
+import scala.collection.mutable.ListBuffer
+
 /**
   * Created by yangyong3 on 2016/12/29.
   */
-class MongoTable extends AbstractTable with TranslatableTable {
-  override def toRel(context: ToRelContext, relOptTable: RelOptTable): RelNode = ???
+class MongoTable(val mongoCollection: MongoCollection[Document], var protoRowType: RelProtoDataType = null) extends AbstractTable {
+  private val fieldTypes: ListBuffer[MongoFieldType] = scala.collection.mutable.ListBuffer[MongoFieldType]()
 
-  //override def asQueryable[T](queryProvider: QueryProvider, schema: SchemaPlus, tableName: String): Queryable[T] = ???
+  def fetchFeilds(typeFactory: RelDataTypeFactory, fieldTypes: ListBuffer[MongoFieldType], mongoCollection: MongoCollection[Document]): RelDataType = {
+    val fieldNames = new ListBuffer[String]()
+    val document = mongoCollection.find().first()
+    println(document)
+    null
+  }
 
-  override def getRowType(typeFactory: RelDataTypeFactory): RelDataType = ???
+  override def getRowType(typeFactory: RelDataTypeFactory): RelDataType = {
+    if (protoRowType != null)
+      return protoRowType.apply(typeFactory)
+    if (fieldTypes.length == 0) {
+      return fetchFeilds(typeFactory,fieldTypes,mongoCollection)
+    }
+    null
+  }
 }
