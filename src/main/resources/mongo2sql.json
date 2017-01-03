@@ -1,0 +1,16 @@
+{
+  version: '1.0',
+  defaultSchema: 'letv_beidou_spider',
+  schemas: [
+    {
+      name: 'letv_beidou_spider',
+      type: 'custom',
+      factory: 'com.young.scala.sqlparser.mongo2sql.schema.MongoSchemaFactory',
+      operand: {
+        url: 'mongodb://bigdata:NDZmMTNhZGMzYjg@10.183.222.168:27017,10.183.222.177:27017,10.183.222.178:27017/?replicaSet=test_noauth',
+        database:'letv_beidou_spider',
+        type:'FILTER'
+      }
+    }
+  ]
+}

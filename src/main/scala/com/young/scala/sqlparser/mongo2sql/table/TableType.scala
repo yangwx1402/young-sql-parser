@@ -1,4 +1,4 @@
-package com.young.scala.sqlparser.mongo2sql
+package com.young.scala.sqlparser.mongo2sql.table
 
 /**
   * Created by young.yang on 2016/12/29.

@@ -1,8 +1,9 @@
-package com.young.scala.sqlparser.mongo2sql
+package com.young.scala.sqlparser.mongo2sql.schema
 
 import java.util
 
 import com.mongodb.{MongoClient, MongoClientURI}
+import com.young.scala.sqlparser.mongo2sql.table.TableType
 import org.apache.calcite.schema.{Schema, SchemaPlus}
 
 /**

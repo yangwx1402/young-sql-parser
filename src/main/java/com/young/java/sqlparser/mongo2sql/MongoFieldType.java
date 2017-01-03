@@ -3,6 +3,7 @@ package com.young.java.sqlparser.mongo2sql;
 import org.apache.calcite.adapter.java.JavaTypeFactory;
 import org.apache.calcite.linq4j.tree.Primitive;
 import org.apache.calcite.rel.type.RelDataType;
+import org.bson.types.ObjectId;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -12,18 +13,20 @@ import java.util.Map;
  */
 public enum MongoFieldType {
 
-    STRING(String.class, "string"),
-    BOOLEAN(Primitive.BOOLEAN),
-    BYTE(Primitive.BYTE),
-    CHAR(Primitive.CHAR),
-    SHORT(Primitive.SHORT),
-    INT(Primitive.INT),
-    LONG(Primitive.LONG),
-    FLOAT(Primitive.FLOAT),
-    DOUBLE(Primitive.DOUBLE),
-    DATE(java.sql.Date.class, "date"),
-    TIME(java.sql.Time.class, "time"),
-    TIMESTAMP(java.sql.Timestamp.class, "timestamp");
+    STRING(String.class, "String"),
+    BOOLEAN(Boolean.class,"Boolean"),
+    BYTE(Byte.class,"Byte"),
+    CHAR(java.lang.Character.class,"Character"),
+    SHORT(Short.class,"Short"),
+    INTEGER(Integer.class,"Integer"),
+    LONG(Long.class,"Long"),
+    FLOAT(Float.class,"Float"),
+    DOUBLE(Double.class,"Double"),
+    DATE(java.sql.Date.class, "Date"),
+    TIME(java.sql.Time.class, "Time"),
+    TIMESTAMP(java.sql.Timestamp.class, "Timestamp"),
+    OBJECTID(ObjectId.class,"ObjectId"),
+    OBJECT(Object.class,"Object");
 
     private final Class clazz;
     private final String simpleName;

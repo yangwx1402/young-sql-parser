@@ -1,4 +1,4 @@
-package com.young.scala.sqlparser.mongo2sql
+package com.young.scala.sqlparser.mongo2sql.table
 
 import com.mongodb.client.MongoCollection
 import org.apache.calcite.rel.`type`.RelProtoDataType

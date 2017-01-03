@@ -1,10 +1,12 @@
-package com.young.scala.sqlparser.mongo2sql
+package com.young.scala.sqlparser.mongo2sql.schema
 
 import java.util
 
 import com.mongodb.client.MongoDatabase
-import org.apache.calcite.schema.impl.AbstractSchema
+
+import com.young.scala.sqlparser.mongo2sql.table.{MongoTableFactory, TableType, ScanMongoTable}
 import org.apache.calcite.schema.Table
+import org.apache.calcite.schema.impl.AbstractSchema
 
 /**
   * Created by yangyong3 on 2016/12/29.
@@ -16,7 +18,7 @@ class MongoSchema(database: MongoDatabase, tableType: TableType) extends Abstrac
     val it = database.listCollectionNames().iterator()
     while (it.hasNext) {
       val collection = it.next()
-      map.put(it.next(), new ScanMongoTable(database.getCollection(collection), null))
+      map.put(collection, MongoTableFactory.getTable(database.getCollection(collection), tableType))
     }
     map
   }
