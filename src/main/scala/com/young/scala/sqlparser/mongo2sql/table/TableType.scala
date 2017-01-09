@@ -10,9 +10,7 @@ case object SCAN extends TableType
 
 case object FILTER extends TableType
 
-case object GROUP extends TableType
-
-case object ORDER extends TableType
+case object TRANSLATABLE extends TableType
 
 object TableType {
   def of(typeString: String): TableType = {
@@ -20,10 +18,8 @@ object TableType {
       return SCAN
     } else if (FILTER.toString.equals(typeString)) {
       return FILTER
-    } else if (GROUP.toString.equals(typeString)) {
-      return GROUP
-    } else if (ORDER.toString.equals(typeString)) {
-      return ORDER
+    } else if (TRANSLATABLE.toString.equals(typeString)) {
+      return TRANSLATABLE
     } else {
       return SCAN
     }

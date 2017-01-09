@@ -13,8 +13,7 @@ object MongoTableFactory {
     tableType match {
       case SCAN => new ScanMongoTable(mongoCollection)
       case FILTER => new FilterMongoTable(mongoCollection)
-      case GROUP => new GroupMongoTable(mongoCollection)
-      case ORDER => new OrderMongoTable(mongoCollection)
+      case TRANSLATABLE => new TranslatableMongoTable(mongoCollection)
     }
   }
 }
