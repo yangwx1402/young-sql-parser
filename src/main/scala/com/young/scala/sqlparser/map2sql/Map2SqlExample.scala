@@ -9,7 +9,7 @@ import java.util.Properties
 object Map2SqlExample {
 
   def main(args: Array[String]) {
-    val model: String = "D:\\young\\scala\\young-scala-example\\src\\main\\resources\\map2sql.json"
+    val model: String = "D:\\young\\scala\\young-sql-parser\\src\\main\\resources\\map2sql.json"
     Class.forName("org.apache.calcite.jdbc.Driver")
     val connection: Connection = DriverManager.getConnection("jdbc:calcite:model=" + model, new Properties)
     val meta = connection.getMetaData.getTables(null,null,null,null);

@@ -11,10 +11,10 @@ object MongoTableFactory {
 
   def getTable(mongoCollection: MongoCollection[Document], tableType: TableType): Table = {
     tableType match {
-      case SCAN => new ScanMongoTable(mongoCollection, null)
-      case FILTER => new FilterMongoTable(mongoCollection, null)
-      case GROUP => new GroupMongoTable(mongoCollection, null)
-      case ORDER => new OrderMongoTable(mongoCollection, null)
+      case SCAN => new ScanMongoTable(mongoCollection)
+      case FILTER => new FilterMongoTable(mongoCollection)
+      case GROUP => new GroupMongoTable(mongoCollection)
+      case ORDER => new OrderMongoTable(mongoCollection)
     }
   }
 }

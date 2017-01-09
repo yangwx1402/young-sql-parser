@@ -7,6 +7,6 @@ import org.bson.Document
 /**
   * Created by yangyong3 on 2016/12/30.
   */
-class GroupMongoTable(mongoCollection:MongoCollection[Document], relProtoDataType: RelProtoDataType) extends MongoTable(mongoCollection,relProtoDataType){
+class GroupMongoTable(mongoCollection:MongoCollection[Document]) extends MongoTable(mongoCollection){
 
 }

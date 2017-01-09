@@ -1,4 +1,4 @@
-name := "young-scala-example"
+name := "young-sql-parser"
 
 version := "1.0"
 logLevel := Level.Info

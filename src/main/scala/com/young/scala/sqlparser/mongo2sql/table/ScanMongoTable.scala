@@ -12,10 +12,10 @@ import org.bson.Document
 /**
   * Created by yangyong3 on 2016/12/30.
   */
-class ScanMongoTable(mongoCollection: MongoCollection[Document], relProtoDataType: RelProtoDataType) extends MongoTable(mongoCollection, relProtoDataType) with ScannableTable {
+class ScanMongoTable(mongoCollection: MongoCollection[Document]) extends MongoTable(mongoCollection) with ScannableTable {
   override def scan(root: DataContext): Enumerable[Array[AnyRef]] = {
     new AbstractEnumerable[Array[Object]] {
-      override def enumerator(): Enumerator[Array[Object]] = new MongoScannEnumerator[Array[Object]](mongoCollection, new MongoArrayConverter)
+      override def enumerator(): Enumerator[Array[Object]] = new MongoScannEnumerator[Array[Object]](mongoCollection.find().iterator(), new MongoArrayConverter)
     }
   }
 }

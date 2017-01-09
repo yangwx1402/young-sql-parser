@@ -15,23 +15,28 @@ import scala.collection.mutable.ListBuffer
 /**
   * Created by yangyong3 on 2016/12/29.
   */
-class MongoTable(val mongoCollection: MongoCollection[Document], var protoRowType: RelProtoDataType = null) extends AbstractTable {
-  private val fieldTypes: ListBuffer[MongoFieldType] = scala.collection.mutable.ListBuffer[MongoFieldType]()
+class MongoTable(val mongoCollection: MongoCollection[Document]) extends AbstractTable {
+  val fieldTypes: ListBuffer[(String, MongoFieldType)] = scala.collection.mutable.ListBuffer[(String, MongoFieldType)]()
 
-  def fetchFeilds(typeFactory: RelDataTypeFactory, fieldTypes: ListBuffer[MongoFieldType], mongoCollection: MongoCollection[Document]): RelDataType = {
+  var protoRowType: RelProtoDataType = null
+
+  def fetchFeilds(typeFactory: RelDataTypeFactory, mongoCollection: MongoCollection[Document]): RelDataType = {
     val document = mongoCollection.find().first()
     val names = new util.ArrayList[String]()
     val types = new util.ArrayList[RelDataType]()
     val it = document.entrySet().iterator()
     var temp: Entry[String, AnyRef] = null
+    var mongoFieldType: MongoFieldType = null
     while (it.hasNext) {
       temp = it.next()
       names.add(temp.getKey)
       if (temp.getValue == null) {
-        types.add(MongoFieldType.of("Object").toType((typeFactory.asInstanceOf[JavaTypeFactory])))
+        mongoFieldType = MongoFieldType.of("Object")
       } else {
-        types.add(MongoFieldType.of(temp.getValue.getClass.getSimpleName).toType((typeFactory.asInstanceOf[JavaTypeFactory])))
+        mongoFieldType = MongoFieldType.of(temp.getValue.getClass.getSimpleName)
       }
+      types.add(mongoFieldType.toType((typeFactory.asInstanceOf[JavaTypeFactory])))
+      fieldTypes.+=((temp.getKey, mongoFieldType))
     }
     typeFactory.createStructType(types, names)
   }
@@ -39,6 +44,18 @@ class MongoTable(val mongoCollection: MongoCollection[Document], var protoRowTyp
   override def getRowType(typeFactory: RelDataTypeFactory): RelDataType = {
     if (protoRowType != null)
       return protoRowType.apply(typeFactory)
-    return fetchFeilds(typeFactory, fieldTypes, mongoCollection)
+    return fetchFeilds(typeFactory, mongoCollection)
+  }
+
+  def getValueObject(index: Int, value: String): Any = {
+    val fieldType = fieldTypes(index)._2
+    fieldType match {
+      case MongoFieldType.LONG => value.toLong
+      case MongoFieldType.INTEGER => value.toInt
+      case MongoFieldType.STRING => value
+      case MongoFieldType.BOOLEAN => value.toBoolean
+      case MongoFieldType.DATE => value
+      case MongoFieldType.DOUBLE => value.toDouble
+    }
   }
 }

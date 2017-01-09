@@ -9,11 +9,11 @@ import java.util.Properties
 object Mongo2sqlExample {
 
   def main(args: Array[String]) {
-    val model: String = "D:\\young\\scala\\young-scala-example\\src\\main\\resources\\mongo2sql.json"
+    val model: String = "D:\\young\\scala\\young-sql-parser\\src\\main\\resources\\mongo2sql.json"
     Class.forName("org.apache.calcite.jdbc.Driver")
     val connection: Connection = DriverManager.getConnection("jdbc:calcite:model=" + model, new Properties)
     val stmt = connection.createStatement()
-    val sql = "select * from \"beidou_yuqing_mdata\" where \"beidou_id\" = 291701001 order by \"insert_time_long\" asc"
+    val sql = "select * from \"beidou_yuqing_data\" where \"beidou_id\" = 291701001 and  \"yqpid\"='04_e26ce7ba7e8dd14dbc247ec6d802107a' "
     val rs = stmt.executeQuery(sql)
     println(sql)
     val index = rs.getMetaData.getColumnCount
